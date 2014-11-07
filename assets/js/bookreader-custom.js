@@ -25,7 +25,7 @@ br.getPageURI = function(index, reduce, rotate) {
     var leafStr = '000000';            
     var imgStr = (index+1).toString();
     var re = new RegExp("0{"+imgStr.length+"}$");
-    var url = 'http://thewalters.org/exhibitions/bythebook/book1/W104/W104_'+leafStr.replace(re, imgStr) + '_sap.jpg';
+    var url = 'assets/book-w281/W281_'+leafStr.replace(re, imgStr) + '_sap.jpg';
     return url;
 }
 
@@ -77,14 +77,14 @@ br.getPageNum = function(index) {
 }
 
 // Total number of leafs
-br.numLeafs = 246;
+br.numLeafs = 497;
 
 // Book title and the URL used for the book title link
-br.bookTitle= 'Book of Hours';
-br.bookUrl  = 'http://thewalters.org/exhibitions/bythebook/';
+br.bookTitle= 'MALET-LANNOY HOURS';
+br.bookUrl  = '#';
 
 // Override the path used to find UI images
-br.imagesBaseURL = '../BookReader/images/';
+br.imagesBaseURL = 'assets/img/';
 
 br.getEmbedCode = function(frameWidth, frameHeight, viewParams) {
     return "Embed code not supported in bookreader demo.";

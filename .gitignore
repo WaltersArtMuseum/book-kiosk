@@ -1,5 +1,6 @@
 # ignore _files directory
 _files/
+assets/book-*/*.jpg
 
 ### OSX ###
 .DS_Store
