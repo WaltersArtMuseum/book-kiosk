@@ -11,7 +11,7 @@ This project is built from a previous project, which was an iMac display of 8 bo
 - [OpenLibrary's BookReader](https://github.com/openlibrary/bookreader)
 - [The Digital Walters](http://www.thedigitalwalters.org/)
 - [Wget](https://www.gnu.org/software/wget/)
-- - [BootStrap CSS Framework](http://getbootstrap.com/) is included for overkill/future-use
+- [BootStrap CSS Framework](http://getbootstrap.com/) is included for overkill/future-use
 
 
 ## How to Use This
