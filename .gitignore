@@ -1,6 +1,7 @@
 # ignore _files directory
 _files/
 assets/book-*/*.jpg
+assets/book-*/*.zip
 
 ### OSX ###
 .DS_Store

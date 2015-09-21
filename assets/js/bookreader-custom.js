@@ -8,12 +8,12 @@ br = new BookReader();
 
 // Return the width of a given page.  Here we assume all images are 800 pixels wide
 br.getPageWidth = function(index) {
-    return 800;
+    return 1235;
 }
 
 // Return the height of a given page.  Here we assume all images are 1200 pixels high
 br.getPageHeight = function(index) {
-    return 1200;
+    return 1800;
 }
 
 // We load the images from archive.org -- you can modify this function to retrieve images
@@ -25,7 +25,7 @@ br.getPageURI = function(index, reduce, rotate) {
     var leafStr = '000000';            
     var imgStr = (index+1).toString();
     var re = new RegExp("0{"+imgStr.length+"}$");
-    var url = 'assets/book-w281/W281_'+leafStr.replace(re, imgStr) + '_sap.jpg';
+    var url = 'assets/book-w658/w658_'+leafStr.replace(re, imgStr) + '_web.jpg';
     return url;
 }
 
@@ -77,7 +77,7 @@ br.getPageNum = function(index) {
 }
 
 // Total number of leafs
-br.numLeafs = 497;
+br.numLeafs = 775;
 
 // Book title and the URL used for the book title link
 br.bookTitle= 'MALET-LANNOY HOURS';
