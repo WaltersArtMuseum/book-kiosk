@@ -1,9 +1,7 @@
-From Pen to Press
-======
-This project is a kiosk website for iPad. It will display a single manuscript, digitized from the collection of the Walters Art Museum in Baltimore, Maryland.
-The iPad will be on view in the focus show, [From Pen to Press: Experimentation and Innovation in the Age of Print](http://thewalters.org/events/eventdetails.aspx?e=3614). 
+Pearls on a String
+==================
 
-This project is built from a previous project, which was an iMac display of 8 books for the focus show, "[Living by the Book: Monks, Nuns and their Manuscripts](http://thewalters.org/exhibitions/bythebook/)". 
+This project is a kiosk website for iPad, touchscreen or kiosk computer. It will display a single manuscript, digitized from the collection of the Walters Art Museum in Baltimore, Maryland.
 
 
 ## Technology
