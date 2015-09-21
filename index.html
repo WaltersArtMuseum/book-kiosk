@@ -4,33 +4,24 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-
+    <!-- <meta name="description" content=""> -->
+    <!-- <meta name="author" content=""> -->
+    <!-- <link rel="icon" href="favicon.ico"> -->
     <title>Digital Book</title>
-<script src="assets/js/jquery.min.js"></script>
-    <!-- Bootstrap core CSS -->
+    <!-- this page uses jquery 2.1.4 for the auto-refresh, but embed page requires an older version -->
+    <script type="text/javascript" src="assets/js/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.inactivity.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <!-- <link href="cover.css" rel="stylesheet"> -->
     <link rel="stylesheet" type="text/css" href="assets/css/BookReader.css"/>
-    <!-- Custom CSS overrides -->
-    <!--    <link rel="stylesheet" type="text/css" href="../css/BookReaderDemo.css"/>-->
-
-
-    
-    <link rel="stylesheet" type="text/css" href="assets/css/BookReader.css"/>
-<style>
-body {
-  height: 100%;
-  background-color: #000000;
-}
-#BRpageview {  background-color: #000000 !important;}
-.container { }
-#book {  display:block;margin-top:1%; margin-left:-5%; }
-</style>
+    <style>
+      body {
+        height: 100%;
+        background-color: #000000;
+      }
+      #BRpageview {  background-color: #000000 !important;}
+      .container { }
+      #book {  display:block;margin-top:1%; margin-left:-5%; }
+    </style>
   </head>
 
   <body>
@@ -40,21 +31,13 @@ body {
       </section>
     </article>
 
-<script>
-     var time = new Date().getTime();
-     $(document.body).bind("mousemove keypress", function(e) {
-         time = new Date().getTime();
-     });
-
-     function refresh() {
-         if(new Date().getTime() - time >= 30000) 
-             window.location.reload(true);
-         else 
-             setTimeout(refresh, 10000);
-     }
-
-     setTimeout(refresh, 10000);
-</script>
+  <script>
+    $(document).inactivity({interval: 60000});
+    $(document).on("inactivity", function(){
+        // function that fires on inactivity
+        location.reload();
+    });
+  </script>
 
 
 
