@@ -10,7 +10,7 @@
     <title>Digital Book</title>
     <!-- this page uses jquery 2.1.4 for the auto-refresh, but embed page requires an older version -->
     <script type="text/javascript" src="assets/js/jquery-2.1.4.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.inactivity.min.js"></script>
+    <!--- <script type="text/javascript" src="assets/js/jquery.inactivity.min.js"></script> -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/BookReader.css"/>
     <style>
@@ -27,18 +27,48 @@
   <body>
     <article class="wrap">
       <section id="book" class="embed-responsive embed-responsive-4by3">
-        <iframe id="bookembed" src="embed.html#page/398/mode/2up"  class="embed-responsive-item"></iframe>
+        <iframe id="bookembed" src="embed.html#page/394/mode/2up"  class="embed-responsive-item"></iframe>
       </section>
     </article>
 
-  <script>
+<!---  <script>
     $(document).inactivity({interval: 60000});
     $(document).on("inactivity", function(){
         // function that fires on inactivity
         location.reload();
     });
-  </script>
+  </script> -->
 
+  <script>
+  // http://www.codingforums.com/javascript-programming/263921-refresh-page-if-user-inactive.html#post1238048
+    if (window.addEventListener)
+    addEvent = function(ob, type, fn ) {
+      ob.addEventListener(type, fn, false );
+    };
+    else if (document.attachEvent)
+    addEvent = function(ob, type, fn ) {
+      var eProp = type + fn;
+      ob['e'+eProp] = fn;
+      ob[eProp] = function(){ob['e'+eProp]( window.event );};
+      ob.attachEvent( 'on'+type, ob[eProp]);
+    };
+
+    var timer;
+    timerReset = function(timer) {
+       if (timer) clearTimeout(timer); 
+       timer = setTimeout(function() {location.reload(true);},30000);
+    }
+
+    addEvent(window, 'mousedown', timerReset);
+    addEvent(window, 'onscroll', timerReset);
+    addEvent(window, 'mousemove', timerReset);
+    addEvent(window, 'keydown', timerReset);
+    addEvent(window, 'touchcancel', timerReset);
+    addEvent(window, 'touchend', timerReset);
+    addEvent(window, 'touchmove', timerReset);
+    addEvent(window, 'touchstart', timerReset);
+    addEvent(window, 'wheel', timerReset);
+  </script>
 
 
   </body>

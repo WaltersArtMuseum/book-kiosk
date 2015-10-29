@@ -77,10 +77,10 @@ br.getPageNum = function(index) {
 }
 
 // Total number of leafs
-br.numLeafs = 775;
+br.numLeafs = 771;
 
 // Book title and the URL used for the book title link
-br.bookTitle= 'MALET-LANNOY HOURS';
+br.bookTitle= 'Piri Ries';
 br.bookUrl  = '#';
 
 // Override the path used to find UI images
