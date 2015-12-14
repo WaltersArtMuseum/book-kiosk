@@ -21,6 +21,9 @@
       #BRpageview {  background-color: #000000 !important;}
       .wrap { margin:auto;width:67%;}
       #book {  display:block;margin-top:1%; margin-left:-5%; }
+      /* hide selection highlight */
+      *::selection {background: transparent; /* WebKit/Blink Browsers */ }
+      *::-moz-selection {background: transparent; /* Gecko Browsers */ }
     </style>
   </head>
 
@@ -31,13 +34,14 @@
       </section>
     </article>
 
-<!---  <script>
-    $(document).inactivity({interval: 60000});
-    $(document).on("inactivity", function(){
-        // function that fires on inactivity
-        location.reload();
-    });
-  </script> -->
+ <script>
+    // $(document).inactivity({interval: 30000});
+    // $(document).on("inactivity", function(){
+    //     // function that fires on inactivity
+    //     location.reload();
+    // });
+  </script>
+
 
   <script>
   // http://www.codingforums.com/javascript-programming/263921-refresh-page-if-user-inactive.html#post1238048
@@ -56,7 +60,7 @@
     var timer;
     timerReset = function(timer) {
        if (timer) clearTimeout(timer); 
-       timer = setTimeout(function() {location.reload(true);},30000);
+       timer = setTimeout(function() {location.reload(true);},5400000);
     }
 
     addEvent(window, 'mousedown', timerReset);
