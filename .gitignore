@@ -1,6 +1,6 @@
 # ignore _files directory
 _files/
-assets/book*
+assets/book/*.jpg
 BookReaderDev
 
 ### OSX ###
