@@ -1,48 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-
-    <title>Book Template</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <!-- <link href="cover.css" rel="stylesheet"> -->
-    <link rel="stylesheet" type="text/css" href="/exhibitions/bythebook/bookreader/BookReader/BookReader.css"/>
-    <!-- Custom CSS overrides -->
-    <!--    <link rel="stylesheet" type="text/css" href="../css/BookReaderDemo.css"/>-->
-
-    <script type="text/javascript" src="http://www.archive.org/includes/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="http://www.archive.org/bookreader/jquery-ui-1.8.5.custom.min.js"></script>
-
-    <script type="text/javascript" src="http://www.archive.org/bookreader/dragscrollable.js"></script>
-    <script type="text/javascript" src="http://www.archive.org/bookreader/jquery.colorbox-min.js"></script>
-    <script type="text/javascript" src="http://www.archive.org/bookreader/jquery.ui.ipad.js"></script>
-    <script type="text/javascript" src="http://www.archive.org/bookreader/jquery.bt.min.js"></script>
-
-    <script type="text/javascript" src="http://thewalters.org/exhibitions/bythebook/bookreader/BookReader/BookReader.js"></script>
-    
-    <link rel="stylesheet" type="text/css" href="assets/css/BookReader.css"/>
-<style>
-body {
-  height: 100%;
-  background-color: #333;
-}
-</style>
+    <title>
+      BookReader 
+    </title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <!-- JS dependencies -->
+    <script src="assets/js/jquery-1.10.1.js"> </script>
+    <script src="assets/js/jquery-ui-1.12.0.min.js"> </script>
+    <script src="assets/js/jquery.browser.min.js"> </script>
+    <script src="assets/js/dragscrollable-br.js"> </script>
+    <script src="assets/js/jquery.colorbox-min.js"> </script>
+    <script src="assets/js/jquery.bt.min.js"> </script>
+    <!-- mmenu library -->
+    <link href="assets/mmenu/dist/css/jquery.mmenu.css" rel="stylesheet"/> 
+    <link href="assets/mmenu/dist/addons/navbars/jquery.mmenu.navbars.css" rel="stylesheet"/> 
+    <script src="assets/mmenu/dist/js/jquery.mmenu.min.js"> </script>
+    <script src="assets/mmenu/dist/addons/navbars/jquery.mmenu.navbars.min.js"> </script>
+    <!-- BookReader and plugins -->
+    <link href="assets/css/BookReader.css" rel="stylesheet"/> 
+    <script src="assets/js/BookReader.js"> </script>
+    <!-- Mobile nav plugin -->
+    <script src="assets/plugins/plugin.mobile_nav.js"> </script>
+    <!-- URL-changing plugin -->
+    <script src="assets/plugins/plugin.url.js"> </script>
+    <style>
+        html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+        #BookReader { width: 100%; height: 100%; }
+        .BRtoolbarSectionLogo {display:none;}
+    </style>
   </head>
-
   <body>
-    <article class="container">
-      <section class="col-md-12">
-        <iframe id="bookembed" src="embed.html#page/170/mode/2up" width="940" height="750"></iframe>
-      </section>
-    </article>
+    <div id="BookReader">
+    </div>
+    <script src="assets/js/BookReaderJSAdvanced.js" type="text/javascript"> </script>
   </body>
 </html>

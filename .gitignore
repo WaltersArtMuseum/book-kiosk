@@ -1,6 +1,7 @@
 # ignore _files directory
 _files/
-assets/book-*/*.jpg
+assets/book*
+BookReaderDev
 
 ### OSX ###
 .DS_Store
@@ -94,8 +95,3 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-
-### Dreamweaver ###
-# DW Dreamweaver added files
-_notes
-dwsync.xml
