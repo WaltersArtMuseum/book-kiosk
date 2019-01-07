@@ -7,17 +7,17 @@
 var options = {
   // Total number of leafs
   getNumLeafs: function() {
-      return 67;
+      return 65;
   },
 
   // Return the width of a given page.  Here we assume all images are 800 pixels wide
   getPageWidth: function(index) {
-      return 800;
+      return 1279;
   },
 
   // Return the height of a given page.  Here we assume all images are 1200 pixels high
   getPageHeight: function(index) {
-      return 1200;
+      return 1800;
   },
 
   // We load the images from archive.org -- you can modify this function to retrieve images
@@ -82,7 +82,7 @@ var options = {
   // Book title and the URL used for the book title link
   bookTitle: "THE SILK BOOK",
   bookUrl: 'index.html',
-  bookUrlText: 'regarded as the first book produced by a computer',
+  bookUrlText: '',
   bookUrlTitle: 'Livre de Prières',
   // thumbnail is optional, but it is used in the info dialog
   thumbnail: '//archive.org/download/BookReader/img/page014.jpg',
