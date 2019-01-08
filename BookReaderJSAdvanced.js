@@ -7,12 +7,12 @@
 var options = {
   // Total number of leafs
   getNumLeafs: function() {
-      return 65;
+      return 62;
   },
 
   // Return the width of a given page.  Here we assume all images are 800 pixels wide
   getPageWidth: function(index) {
-      return 1279;
+      return 1312;
   },
 
   // Return the height of a given page.  Here we assume all images are 1200 pixels high
@@ -80,24 +80,24 @@ var options = {
   },
 
   // Book title and the URL used for the book title link
-  bookTitle: "THE SILK BOOK",
-  bookUrl: 'index.html',
-  bookUrlText: '',
-  bookUrlTitle: 'Livre de Prières',
+  bookTitle: 'THE SILK BOOK',
+  bookUrl: '/BookReaderDemo/index.html',
+  bookUrlText: 'Back to Demos',
+  bookUrlTitle: 'This is the book URL title',
   // thumbnail is optional, but it is used in the info dialog
   thumbnail: '//archive.org/download/BookReader/img/page014.jpg',
   // Metadata is optional, but it is used in the info dialog
   metadata: [
-    {label: 'Name', value: "THE SILK BOOK"},
-    {label: 'Creators', value: "Charles Meunier (French, 1865-1940) (Binder), J. Hervier (Artist)"},
-    {label: 'Info', value: "This work was woven in silk, using the Jacquard loom method of punch cards. Approximately 106,000 cards per leaf were used in this highly complex application. This extremely rare volume, which is the only successful example of an entirely woven book, is often regarded as the first book produced by a computer, since Jacquard's process is viewed as an early precursor to the computer. The printed silk was mounted on paper pages and then bound."},
+    {label: 'Title', value: 'Open Library BookReader Presentation'},
+    {label: 'Author', value: 'Internet Archive'},
+    {label: 'Demo Info', value: 'This demo shows how one could use BookReader with their own content.'},
   ],
   // This toggles the mobile drawer (not shown in 'embed' mode)
   enableMobileNav: false,
   mobileNavTitle: 'BookReader demo',
 
   // Override the path used to find UI images
-  imagesBaseURL: 'assets//images/',
+  imagesBaseURL: 'assets/images/',
 
   getEmbedCode: function(frameWidth, frameHeight, viewParams) {
       return "Embed code not supported in bookreader demo.";

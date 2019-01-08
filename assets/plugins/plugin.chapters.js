@@ -3,7 +3,7 @@
  * Could be forked, or extended to alter behavior
  */
 
-jQuery.extend(true, BookReader.defaultOptions, {
+jQuery.extend(BookReader.defaultOptions, {
     olHost: 'https://openlibrary.org',
     enableChaptersPlugin: true,
     bookId: '',
@@ -35,35 +35,45 @@ BookReader.prototype.init = (function(super_) {
 
 BookReader.prototype.addChapter = function(chapterTitle, pageNumber, pageIndex) {
     var uiStringPage = 'Page'; // i18n
+    var self = this;
 
     var percentThrough = BookReader.util.cssPercentage(pageIndex, this.getNumLeafs() - 1);
 
-    $('<div class="chapter" style="left:' + percentThrough + ';"><div class="title">'
-        + chapterTitle + '<span>|</span> ' + uiStringPage + ' ' + pageNumber + '</div></div>')
-    .appendTo('#BRnavline')
+    $('<div>'
+        + '<div>'
+        +   'Chapter: '
+        +    chapterTitle
+        +    ' | '
+        +    uiStringPage
+        +    ' '
+        +    pageNumber
+        +   '</div>'
+        + '</div>'
+    )
+    .addClass('BRchapter')
+    .css({
+        left: percentThrough,
+    })
+    .appendTo(this.$('.BRnavline'))
     .data({'self': this, 'pageIndex': pageIndex })
     .bt({
-        contentSelector: '$(this).find(".title")',
+        contentSelector: '$(this).find("> div")',
         trigger: 'hover',
         closeWhenOthersOpen: true,
         cssStyles: {
             padding: '12px 14px',
             backgroundColor: '#fff',
             border: '4px solid rgb(216,216,216)',
-            fontSize: '13px',
             color: 'rgb(52,52,52)'
         },
-        shrinkToFit: true,
-        width: '200px',
+        shrinkToFit: false,
+        width: '230px',
         padding: 0,
         spikeGirth: 0,
         spikeLength: 0,
-        overlap: '21px',
+        overlap: '0px',
         overlay: false,
-        killTitle: true,
-        textzIndex: 9999,
-        boxzIndex: 9998,
-        wrapperzIndex: 9997,
+        killTitle: false,
         offsetParent: null,
         positions: ['top'],
         fill: 'white',
@@ -74,16 +84,18 @@ BookReader.prototype.addChapter = function(chapterTitle, pageNumber, pageIndex) 
         centerPointY: 0,
         shadow: false
     })
-    .hover( function() {
-        // remove hover effect from other markers then turn on just for this
-        $('.search,.chapter').removeClass('front');
+    .hover(
+        function() {
+            // remove hover effect from other markers then turn on just for this
+            self.$('.BRsearch,.BRchapter').removeClass('front');
             $(this).addClass('front');
-        }, function() {
+        },
+        function() {
             $(this).removeClass('front');
         }
     )
     .bind('click', function() {
-        $(this).data('self').jumpToIndex($(this).data('pageIndex'));
+        self.jumpToIndex($(this).data('pageIndex'));
     });
 };
 
@@ -91,7 +103,7 @@ BookReader.prototype.addChapter = function(chapterTitle, pageNumber, pageIndex) 
  * Remove all chapters.
  */
 BookReader.prototype.removeChapters = function() {
-    $('#BRnavpos .chapter').remove();
+    this.$('.BRnavpos .BRchapter').remove();
 };
 
 /*
@@ -120,21 +132,14 @@ BookReader.prototype.addChapterFromEntry = function(tocEntryObject) {
     if (pageIndex) {
         this.addChapter(tocEntryObject['title'], tocEntryObject['pagenum'], pageIndex);
     }
-    $('.chapter').each(function(){
+    this.$('.BRchapter').each(function(){
         $(this).hover(function(){
             $(this).addClass('front');
         },function(){
             $(this).removeClass('front');
         });
     });
-    $('.search').each(function(){
-        $(this).hover(function(){
-            $(this).addClass('front');
-        },function(){
-            $(this).removeClass('front');
-        });
-    });
-    $('.searchChap').each(function(){
+    this.$('.BRsearch').each(function(){
         $(this).hover(function(){
             $(this).addClass('front');
         },function(){

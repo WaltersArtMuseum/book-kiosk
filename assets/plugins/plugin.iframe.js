@@ -5,12 +5,12 @@
 (function setUpIframePlugin() {
     var constMessageTypeFragmentChange = 'bookReaderFragmentChange';
 
-    BookReader.prototype.setup = (function(super_) {
-        return function(options) {
-            super_.call(this, options);
+    BookReader.prototype.init = (function(super_) {
+        return function() {
+            super_.call(this);
             attachEventListeners(this);
         };
-    })(BookReader.prototype.setup);
+    })(BookReader.prototype.init);
 
     /**
      * Using window.postMessage() and event listeners, the plugin notifies the
@@ -27,7 +27,7 @@
         }
 
         br.bind(BookReader.eventNames.fragmentChange, function() {
-            var fragment = br.fragmentFromParams(br.paramsFromCurrent(true));
+            var fragment = br.fragmentFromParams(br.paramsFromCurrent());
 
             window.parent.postMessage(
                 createWindowMessage(constMessageTypeFragmentChange, {

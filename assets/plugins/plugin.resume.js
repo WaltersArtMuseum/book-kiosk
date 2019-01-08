@@ -2,19 +2,25 @@
  * Plugin to remember the current page in a cookie
  */
 
-jQuery.extend(true, BookReader.defaultOptions, {
-    enablePageResume: false,
+jQuery.extend(BookReader.defaultOptions, {
+    enablePageResume: true,
+    /**
+     * @var null|string eg '/', '/details/id'
+     */
+    resumeCookiePath: null,
 });
 
-// Extend the constructor to add TTS properties
-BookReader.prototype.setup = (function(super_) {
-    return function (options) {
-        super_.call(this, options);
-
-        this.enablePageResume = options.enablePageResume;
+BookReader.prototype.init = (function(super_) {
+    return function() {
+        super_.call(this);
+        if (this.options.enablePageResume) {
+            this.bind(BookReader.eventNames.fragmentChange, function() {
+                var params = this.paramsFromCurrent();
+                this.updateResumeValue(params.index);
+            }.bind(this));
+        }
     };
-})(BookReader.prototype.setup);
-
+})(BookReader.prototype.init);
 
 /**
  * Get's the page resume value, for remembering reader's page
@@ -32,10 +38,11 @@ BookReader.prototype.getResumeValue = function() {
  * Can be overriden for different implementation
  * @param {Number} the leaf index
  */
-BookReader.prototype.updateResumeValue = function(index) {
+BookReader.prototype.updateResumeValue = function(index, cookieName) {
     var ttl = new Date(+new Date + 12096e5); // 2 weeks
-    var path = window.location.pathname;
-    BookReader.docCookies.setItem('br-resume', index, ttl, path, null, false);
+    var path = this.options.resumeCookiePath || window.location.pathname;
+    cookieName = cookieName || 'br-resume';
+    BookReader.docCookies.setItem(cookieName, index, ttl, path, null, false);
 }
 
 /*\

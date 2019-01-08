@@ -8,10 +8,10 @@
  * <link rel="stylesheet" href="../BookReader/mmenu/dist/addons/navbars/jquery.mmenu.navbars.css" />
  */
 
-jQuery.extend(true, BookReader.defaultOptions, {
+jQuery.extend(BookReader.defaultOptions, {
     enableMobileNav: true,
     mobileNavTitle: 'Internet Archive',
-    onePageMinBreakpoint: 800,
+    mobileNavFullscreenOnly: false,
 });
 
 BookReader.prototype.setup = (function(super_) {
@@ -20,9 +20,9 @@ BookReader.prototype.setup = (function(super_) {
 
         this.enableMobileNav = options.enableMobileNav;
         this.mobileNavTitle = options.mobileNavTitle;
-        this.onePageMinBreakpoint = options.onePageMinBreakpoint;
+        this.mobileNavFullscreenOnly = options.mobileNavFullscreenOnly;
 
-        this.mmenu = null;
+        this.refs.$mmenu = null;
     };
 })(BookReader.prototype.setup);
 
@@ -30,20 +30,17 @@ BookReader.prototype.setup = (function(super_) {
 // Extend initToolbar
 BookReader.prototype.initToolbar = (function (super_) {
     return function (mode, ui) {
-        if (ui == 'embed') {
-            return;
-        }
         var self = this;
 
         if (this.enableMobileNav) {
             var $drawerEl = this.buildMobileDrawerElement();
-            $('body').append($drawerEl);
+            this.refs.$br.append($drawerEl);
 
             // Render info into mobile info before mmenu
-            this.buildInfoDiv($('#mobileInfo'));
-            this.buildShareDiv($('#mobileShare'));
+            this.buildInfoDiv(this.$('.BRmobileInfo'));
+            this.buildShareDiv(this.$('.BRmobileShare'));
 
-            var $mmenuEl = $('nav#BRmobileMenu');
+            var $mmenuEl = $drawerEl;
             $mmenuEl.mmenu({
               navbars: [
                  { "position": "top" },
@@ -68,11 +65,10 @@ BookReader.prototype.initToolbar = (function (super_) {
                 if ($BRpageviewField.length)
                     $BRpageviewField.val(window.location.href);
             });
-            this.mmenu = $mmenuEl;
 
             // High contrast button
             $drawerEl.find('.high-contrast-button').click(function() {
-                $('body').toggleClass('high-contrast');
+                self.refs.$br.toggleClass('high-contrast');
             });
 
             // Bind mobile switch buttons
@@ -85,10 +81,30 @@ BookReader.prototype.initToolbar = (function (super_) {
             $drawerEl.find('.DrawerLayoutButton.thumbnail_mode').click(function() {
                 self.switchMode(self.constModeThumb);
             });
+
+            if (this.mobileNavFullscreenOnly) {
+                $(document.body).addClass('BRbodyMobileNavEnabledFullscreen');
+            } else {
+                $(document.body).addClass('BRbodyMobileNavEnabled');
+            }
+
+            this.refs.$mmenu = $mmenuEl;
         }
 
         // Call the parent method at the end, because it binds events to DOM
         super_.apply(this, arguments);
+
+
+        if (this.enableMobileNav) {
+            // Need to bind more, console after toolbar is initialized
+            this.$('.BRmobileHamburger').click(function() {
+                if ($mmenuEl.data('mmenu').getInstance().vars.opened) {
+                    $mmenuEl.data('mmenu').close();
+                } else {
+                    $mmenuEl.data('mmenu').open();
+                }
+            })
+        }
     };
 })(BookReader.prototype.initToolbar);
 
@@ -98,10 +114,11 @@ BookReader.prototype.buildToolbarElement = (function (super_) {
         var $el = super_.call(this);
         if (this.enableMobileNav) {
             var escapedTitle = BookReader.util.escapeHTML(this.bookTitle);
-            $el.addClass('responsive');
-            $el.prepend($(
+            $el
+            .addClass('responsive')
+            .prepend($(
                    "<span class='BRmobileHamburgerWrapper'>"
-                +     "<span class=\"hamburger\"><a href=\"#BRmobileMenu\"></a></span>"
+                +     "<button class=\"BRmobileHamburger\"></button>"
                 +     "<span class=\"BRtoolbarMobileTitle\" title=\""+escapedTitle+"\">" + this.bookTitle + "</span>"
                 +   "</span>"
             ));
@@ -119,10 +136,10 @@ BookReader.prototype.buildMobileDrawerElement = function() {
     var experimentalHtml = '';
     if (this.enableExperimentalControls) {
       experimentalHtml += "<div class=\"DrawerSettingsTitle\">Experimental (may not work)</div>"
-        +"        <button class='action high-contrast-button'>Toggle high contrast</button>";
+        +"        <button class='BRaction default high-contrast-button'>Toggle high contrast</button>";
     }
 
-    return $(
+    var $el = $(
       "<nav id=\"BRmobileMenu\" class=\"BRmobileMenu\">"
       +"  <ul>"
       +"    <li>"
@@ -150,16 +167,31 @@ BookReader.prototype.buildMobileDrawerElement = function() {
       +"        <span class=\"DrawerIconWrapper \"><img class=\"DrawerIcon\" src=\""+this.imagesBaseURL+"icon_info.svg\" alt=\"info-icon\"/></span>"
       +"        About This Book"
       +"      </span>"
-      +"      <div id=\"mobileInfo\"></div>"
+      +"      <div class=\"BRmobileInfo\"></div>"
       +"    </li>"
       +"    <li>"
       +"      <span>"
       +"        <span class=\"DrawerIconWrapper \"><img class=\"DrawerIcon\" src=\""+this.imagesBaseURL+"icon_share.svg\" alt=\"info-share\"/></span>"
       +"        Share This Book"
       +"      </span>"
-      +"      <div id=\"mobileShare\"></div>"
+      +"      <div class=\"BRmobileShare\"></div>"
       +"    </li>"
       +"  </ul>"
       +"</nav>"
     );
+    return $el;
 };
+
+/**
+ * Mmenu moves itself out side of the root BookReader element, so we need to
+ * include it in the scoped $ function.
+ */
+BookReader.prototype.$ = (function (super_) {
+    return function (arg) {
+        var $results = super_.call(this, arg);
+        if (this.refs.$mmenu) {
+            $results = $results.add(this.refs.$mmenu.find(arg));
+        }
+        return $results;
+    };
+})(BookReader.prototype.$);
