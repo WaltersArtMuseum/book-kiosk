@@ -7,12 +7,12 @@
 var options = {
   // Total number of leafs
   getNumLeafs: function() {
-      return 204;
+      return 622;
   },
 
   // Return the width of a given page.  Here we assume all images are 1146 pixels wide
   getPageWidth: function(index) {
-      return 1146;
+      return 1309;
   },
 
   // Return the height of a given page.  Here we assume all images are 1800 pixels high
@@ -29,7 +29,7 @@ var options = {
       var leafStr = '000'; // edit these leading zeroes to match image filenames in /assets/book./   
       var imgStr = (index+1).toString();
       var re = new RegExp("0{"+imgStr.length+"}$");
-      var url = 'assets/book/book313_'+leafStr.replace(re, imgStr) + '_kiosk.jpg'; // edit to match book filenames
+      var url = 'assets/book/book_'+leafStr.replace(re, imgStr) + '.jpg'; // edit to match book filenames
       return url;
   },
 
