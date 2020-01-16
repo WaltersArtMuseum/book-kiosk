@@ -60,7 +60,9 @@ For scholarly reasons, the images show a sliver of each facing page. The sliver 
 `mogrify -chop 24x0 -gravity East *.jpg`  
 ...then from the _left_ side of files in `even/`  
 `mogrify -chop 24x0 -gravity West *.jpg`
-5. flatten the filestructure back out and do cleanup. cd into the assets/ directory and then `find book/ -mindepth 2 -type f -exec mv -i '{}' book/ ';' && rm -rf book/even/ && rm -rf book/odd/`
+5. cd into the assets/ directory 
+6. then flatten the file structure back out and do cleanup.  
+`find book/ -mindepth 2 -type f -exec mv -i '{}' book/ ';' && rm -rf book/even/ && rm -rf book/odd/`
 
 
 

@@ -7,12 +7,12 @@
 var options = {
   // Total number of leafs
   getNumLeafs: function() {
-      return 622;
+      return 559;
   },
 
   // Return the width of a given page.  Here we assume all images are 1146 pixels wide
   getPageWidth: function(index) {
-      return 1309;
+      return 1262;
   },
 
   // Return the height of a given page.  Here we assume all images are 1800 pixels high
@@ -26,10 +26,10 @@ var options = {
       // reduce and rotate are ignored in this simple implementation, but we
       // could e.g. look at reduce and load images from a different directory
       // or pass the information to an image server
-      var leafStr = '000'; // edit these leading zeroes to match image filenames in /assets/book./   
+      var leafStr = '000000'; // edit these leading zeroes to match image filenames in /assets/book./   
       var imgStr = (index+1).toString();
       var re = new RegExp("0{"+imgStr.length+"}$");
-      var url = 'assets/book/book_'+leafStr.replace(re, imgStr) + '.jpg'; // edit to match book filenames
+      var url = 'assets/book/W75_'+leafStr.replace(re, imgStr) + '_sap.jpg'; // edit to match book filenames
       return url;
   },
 
