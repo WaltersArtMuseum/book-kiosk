@@ -19,6 +19,7 @@ Get to know the toolset
 - [Wget](https://www.gnu.org/software/wget/)
 - [ImageMagick](https://www.sethvargo.com/install-imagemagick-on-osx-lion/)
 - [Kiosk Pro Plus](https://www.kioskproapp.com/)
+- [iMazing](https://imazing.com/)
 
 A working knowledge of html and javascript are also prerequisite. Johannes Baiter has published a good introduction to [Using the OpenLibrary BookReader](http://jbaiter.de/ol-bookreader-basics.html).
 
@@ -35,35 +36,27 @@ Choose (and get) Book Images
 To download images from the book you want to display, [install](http://www.hacksparrow.com/how-to-install-wget-on-your-mac.html) and [use](https://www.gnu.org/software/wget/manual/wget.html) [Wget](https://www.gnu.org/software/wget/) and point to the Digital Walters in the command line:
 
   ```bash
-  cd assets/book/ && wget -r -l1 -nd -e robots=off -R*thumb* -A "jpg" http://thedigitalwalters.org/Data/WaltersManuscripts/92808/data/92.808/sap/
+  cd assets/book/ && wget -r -l1 -nd -e robots=off -R*thumb* -A "jpg" http://www.thedigitalwalters.org/Data/WaltersManuscripts/W75/data/W.75/sap/
   ```
 ... where 92.808 is the shelf number of the book whose images you want to retrieve.
 
-**note:** The server's directory structure varies at times. You would need to do:  
+**note:** The server's directory structure varies at times. You would need to do something like:  
   
-`wget -r -l1 -nd -e robots=off -R*thumb* -A "jpg" http://www.thedigitalwalters.org/Data/WaltersManuscripts/html/W313/`
+`wget -r -l1 -nd -e robots=off -R*thumb* -A "jpg" http://thedigitalwalters.org/Data/WaltersManuscripts/92808/data/92.808/sap/`
 
 After you've run the command, images of a Walters manuscript go to `/assets/book/`. Beautiful!
 
 
-Image Cropping
+Crop the Images
 -------------------------------------------------------------------------------
 
-For scholarly reasons, the images show a sliver of each facing page. The sliver demonstrates the position of each image within the book. For a more realistic, bookish interface, remove the slivers.
+For scholarly reasons, each image shows a sliver of its facing page. The sliver proves the position of each image within the book. The right-side pages will show a sliver of the left side pages, and vice versa. For a more realistic, bookish interface, it helps to remove these slivers.
 
-1. move odd-numbered pages to a new directory
-`mkdir odd; mv *[13579]_sap.jpg odd`
-2. do likewise with the even-numbered pages
-`mkdir even; mv *[24680]_sap.jpg even`
-3. measure an average pixel width of the "slivers" for this book e.g. 24px
-4. Use [ImageMagick](https://lib.bsu.edu/wiki/index.php?title=ImageMagick)'s `mogrify` to trim from the _right_ side of files in `odd/`  
-`mogrify -chop 24x0 -gravity East *.jpg`  
-...then from the _left_ side of files in `even/`  
-`mogrify -chop 24x0 -gravity West *.jpg`
-5. cd into the assets/ directory 
-6. then flatten the file structure back out and do cleanup.  
-`find book/ -mindepth 2 -type f -exec mv -i '{}' book/ ';' && rm -rf book/even/ && rm -rf book/odd/`
-
+1. Use photoshop or similar to measure the average pixel width of the "slivers" for this book e.g. 25px
+2. `cd` into the `assets/book/` directory 
+3. Use [ImageMagick](https://lib.bsu.edu/wiki/index.php?title=ImageMagick)'s `mogrify` to trim from the _left_ edges from the odd-numbered images  
+`mogrify -chop 25x0 -gravity West *[13579]_sap.jpg` 
+4. Then trim the _right_ edge of the _even_-numbered images  `mogrify -chop 25x0 -gravity East *[24680]_sap.jpg`
 
 
 Display the Book
