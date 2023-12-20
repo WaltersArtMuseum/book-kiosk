@@ -4,103 +4,126 @@
 Museum Book Kiosk
 =================
 
-"Museum Book Kiosk" displays a book, digitized from the collection of the Walters Art Museum in Baltimore, Maryland. 
+"Museum Book Kiosk" displays a book, digitized from the collection of the Walters Art Museum in Baltimore, Maryland.
 
-A small, one-page website runs locally on an iPad or other tablet. `index.html` displays the book, with help from javascript files and JPG images of the book pages.
+A small, one-page website runs locally on an iPad or other tablet. `index.html` displays the book, using related JavaScript images.
 
-The git repository has a different branch for different projects.
+This git repository uses a different branch for different projects, which display different books.
 
 
-Get to know the toolset
+Tools
 -------------------------------------------------------------------------------
 
-- [The Internet Archive BookReaderr](https://github.com/openlibrary/bookreader)
-- [The Digital Walters](http://www.thedigitalwalters.org/)
-- [Wget](https://www.gnu.org/software/wget/)
-- [ImageMagick](https://www.sethvargo.com/install-imagemagick-on-osx-lion/)
-- [Kiosk Pro Plus](https://www.kioskproapp.com/)
+This project uses a variety of apps, command-line utilities, HTML, and JavaScript/jQuery.
 
-A working knowledge of html and javascript are also prerequisite. Johannes Baiter has published a good introduction to [Using the OpenLibrary BookReader](http://jbaiter.de/ol-bookreader-basics.html).
+  - [The Internet Archive BookReader](https://github.com/openlibrary/bookreader) tool for creating a simple book-like web interface
+  - [The Digital Walters](https://www.thedigitalwalters.org/) repository of images digitized from books in the collection of the Walters Art Museum
+  - [Wget](https://www.gnu.org/software/wget/) (for linux, [mac](https://www.hacksparrow.com/how-to-install-wget-on-your-mac.html), and [windows](https://builtvisible.com/download-your-website-with-wget/)) for downloading images of digitized books
+  - [ImageMagick](https://imagemagick.org/index.php) for editing images
+  - [Kiosk Pro Plus](https://www.kioskproapp.com/) for running an iPad in "kiosk mode"
+  - [iMazing](https://imazing.com/) for managing files on iPads without iTunes. Or you can use iTunes.
 
 
-Review Project Contents
+Getting Book Images
 -------------------------------------------------------------------------------
 
-Check for [new releases of The Internet Archive BookReader](https://github.com/internetarchive/bookreader/releases), to upgrade the version used here.
-
-
-Choose (and get) Book Images
--------------------------------------------------------------------------------
-
-To download images from the book you want to display, [install](http://www.hacksparrow.com/how-to-install-wget-on-your-mac.html) and [use](https://www.gnu.org/software/wget/manual/wget.html) [Wget](https://www.gnu.org/software/wget/) and point to the Digital Walters in the command line:
+Use WGET to download images from the book you want to display:
 
   ```bash
-  cd assets/book/ && wget -r -l1 -nd -e robots=off -R*thumb* -A "jpg" http://thedigitalwalters.org/Data/WaltersManuscripts/92808/data/92.808/sap/
+  cd assets/book/ && wget -r -l1 -nd -e robots=off -R*thumb* -A "jpg" https://www.thedigitalwalters.org/Data/WaltersManuscripts/W934/data/W.934/sap/
   ```
-... where 92.808 is the shelf number of the book whose images you want to retrieve.
 
-**note:** The server's directory structure varies at times. You would need to do:  
+... where `W934` and `W.934` above correspond to the shelf number of the book whose images you want to retrieve.
+
+After you've run the command, images of a Walters manuscript go to `assets/book/`. Beautiful!
+
+### A Note about Image Paths
+
+**note:** The [server's directory structure varies at times](https://thedigitalwalters.org/04_TechnicalReadMe.html#folder_names). You may need to do something like:  
   
-`wget -r -l1 -nd -e robots=off -R*thumb* -A "jpg" http://www.thedigitalwalters.org/Data/WaltersManuscripts/html/W313/`
-
-After you've run the command, images of a Walters manuscript go to `/assets/book/`. Beautiful!
+`wget -r -l1 -nd -e robots=off -R*thumb* -A "jpg" https://thedigitalwalters.org/Data/WaltersManuscripts/92808/data/92.808/sap/`
 
 
-Image Cropping
+Cropping Images
 -------------------------------------------------------------------------------
 
-For scholarly reasons, the images show a sliver of each facing page. The sliver demonstrates the position of each image within the book. For a more realistic, bookish interface, remove the slivers.
+For scholarly reasons, each image of a page shows a sliver of the facing page. The sliver proves the position of each page within the book. The right-side images show a sliver of the left-side pages, and vice versa. For a more realistic, bookish interface, you can remove the slivers.
 
-1. move odd-numbered pages to a new directory
-`mkdir odd; mv *[13579]_sap.jpg odd`
-2. do likewise with the even-numbered pages
-`mkdir even; mv *[24680]_sap.jpg even`
-3. measure an average pixel width of the "slivers" for this book e.g. 24px
-4. Use [ImageMagick](https://lib.bsu.edu/wiki/index.php?title=ImageMagick)'s `mogrify` to trim from the _right_ side of files in `odd/`  
-`mogrify -chop 24x0 -gravity East *.jpg`  
-...then from the _left_ side of files in `even/`  
-`mogrify -chop 24x0 -gravity West *.jpg`
-5. flatten the filestructure back out and do cleanup. cd into the assets/ directory and then `find book/ -mindepth 2 -type f -exec mv -i '{}' book/ ';' && rm -rf book/even/ && rm -rf book/odd/`
+1. Use Pan image editor like Photoshop or GIMP to measure the average pixel width of the "slivers" for this book e.g. 25px
+2. `cd` into the `assets/book/` directory
+3. Use ImageMagick's `mogrify` to trim from the _left_ edges from the odd-numbered images  
+`mogrify -chop 25x0 -gravity West *[13579]_sap.jpg`
+1. Then trim the _right_ edge of the _even_-numbered images  `mogrify -chop 25x0 -gravity East *[24680]_sap.jpg`
 
 
-
-Display the Book
+Script Config
 -------------------------------------------------------------------------------
 
 Edit `BookReaderJSAdvanced.js` to change the display to a different book.
 
-For the function `getNumLeafs`, change the number to match the filename numbering. For example, if the largest number is 622 for example, enter `000` because 622 has three digits.
+Number of Pages
+--------------------------------------------------------------------------------
+
+For the function `getNumLeafs`, change the number to match the filename numbering. Review the filenames for the images you downloaded. For example, if the largest number is 622 for example, enter `622` for the "total number of leafs."
+
+Image Size
+--------------------------------------------------------------------------------
 
 If necessary, adjust `getPageWidth` and `getPageHeight` to match the image dimensions.
 
-The function `getPageURI` has two important variables to check.
-`leafStr` is the string of leading zeroes within the JPG filenames.
-`url` determines the path to the book images.
+Image Files
+--------------------------------------------------------------------------------
+
+The function `getPageURI` has important variables to check.
+
+  - The function assumes images paths are like `assets/book/W934_000008_sap.jpg` for example, but you can adjust this.
+  - `leafStr` contains leading zeroes for image filenames. If your filenames use 6 digit numbers, enter 6 zeroes: `000000`
+  - `url` determines the path to the book images
+
+Metadata
+--------------------------------------------------------------------------------
 
 Later in the file, look for `bookTitle` and other metadata variables.
 
-### URL Variables
 
-Choose which specific pages to display by default. Edit the URL to, for eample:  `index.html#page/64/mode/2up` where 64 is the pagenumber to show, and 2up is the default display.
-
-Bookreader's documentation has more information about [book URLs](https://openlibrary.org/dev/docs/bookurls).
-
-
-Publish!
+Book Display
 -------------------------------------------------------------------------------
 
-[Put the site on an iPad](https://docs.kioskproapp.com/article/814-storing-content-locally-on-the-ipad) (with [iMazing](https://imazing.com/)) or publish on a web server. 
+With the files in place, and the JavaScript configured, you can browse to `index.html` to view the book.
 
-Using Kiosk Pro, [you have a "timeout" option](https://docs.kioskproapp.com/article/800-timer-settings). If a user flips through the book's pages on the iPad, and then goes away, the default returns after a specified amount of time.
+Choose which specific pages to display by default. Edit [BookReader URL parameters](https://openlibrary.org/dev/docs/bookurls):  `index.html#page/64/mode/2up` uses 64 as the pagenumber to show, and 2up mode shows the pages side-by-side.
+
+
+Updating BookReader
+-------------------------------------------------------------------------------
+
+Check for [new releases of The Internet Archive BookReader](https://github.com/internetarchive/bookreader/releases), to upgrade the version in this project.
+
+  - Copy the download's `/BookReader` directory, replacing the one here.
+  - Also copy `src/assets/images`, replacing this project's `assets/images/`
+
+Publish
+-------------------------------------------------------------------------------
+
+Copy the finished project files to a tablet.
+
+[Put the site on an iPad](https://docs.kioskproapp.com/article/814-storing-content-locally-on-the-ipad) (with [iMazing](https://imazing.com/) or iTunes) or publish on a web server.
+
+Configure the tablet's settings
+
+Using Kiosk Pro, [you have a "timeout" option](https://docs.kioskproapp.com/article/800-timer-settings). If a user flips through the book's pages on the iPad, and then goes away, the browser can reset to a default URL (like `index.html#page/64/mode/2up`). This will "reset" the book view, so that it is open to the specified page(s).
+
+
+You may also want to consider any settings in the tablet's operating system to put it in "lock-down" or "kiosk" mode. Restrict access to only the kiosk app, disable wifi, multi-touch gestures, etc.
 
 
 Contact
 -------------------------------------------------------------------------------
 
-- Developer: [@dylan-k](https://github.com/dylan-k) 
+  - Developer: [@dylan-k](https://github.com/dylan-k)
 
-#### The Walters Art Museum
+### The Walters Art Museum
 
-- Homepage: thewalters.org
-- e-mail:  waltersweb@thewalters.org
-- Twitter: [@walters_museum](https://twitter.com/walters_museum "walters_museum on twitter")
+  - Homepage: thewalters.org
+  - Email:  waltersweb@thewalters.org
+  - See Also: https://api.thewalters.org
