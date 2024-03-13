@@ -111,7 +111,7 @@ Copy the finished project files to a tablet.
 
 Configure the tablet's settings
 
-Using Kiosk Pro, [you have a "timeout" option](https://docs.kioskproapp.com/article/800-timer-settings). If a user flips through the book's pages on the iPad, and then goes away, the browser can reset to a default URL (like `index.html#page/64/mode/2up`). This will "reset" the book view, so that it is open to the specified page(s).
+Using Kiosk Pro, [you have a "timeout" option](https://support.kioskgroup.com/article/991-idle-time-limit). If a user flips through the book's pages on the iPad, and then goes away, the browser can reset to a default URL (like `index.html#page/64/mode/2up`). This will "reset" the book view, so that it is open to the specified page(s).
 
 
 You may also want to consider any settings in the tablet's operating system to put it in "lock-down" or "kiosk" mode. Restrict access to only the kiosk app, disable wifi, multi-touch gestures, etc.
